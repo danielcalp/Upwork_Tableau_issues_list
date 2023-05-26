@@ -44,7 +44,6 @@ def parse(soup):
     table_body = soup.find('tbody')
     rows = table_body.find_all('tr')
     issues_list = []
-#     print(rows[2])
     for item in rows:
         data = {
             "ISSUE ID": issue_id_parse(item),
@@ -53,13 +52,17 @@ def parse(soup):
             "STATUS": status_parse(item)
         }
         issues_list.append(data)
-#         print(data)
     return issues_list
 
 def output(issues_list):
     issues_df = pd.DataFrame(issues_list)
     issues_df.to_excel('output.xlsx', index=False)
 
+# Get the HTML content from the specified URL
 soup = get_data()
+
+# Parse the HTML content to extract the list of issues
 issues_list = parse(soup)
+
+# Output the list of issues to an Excel file
 output(issues_list)
